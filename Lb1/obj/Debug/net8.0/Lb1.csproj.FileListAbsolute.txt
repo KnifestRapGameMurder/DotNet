@@ -1,0 +1,14 @@
+F:\ХНУРЕ\4й курс\.NET\DotNet\Lb1\bin\Debug\net8.0\Lb1.exe
+F:\ХНУРЕ\4й курс\.NET\DotNet\Lb1\bin\Debug\net8.0\Lb1.deps.json
+F:\ХНУРЕ\4й курс\.NET\DotNet\Lb1\bin\Debug\net8.0\Lb1.runtimeconfig.json
+F:\ХНУРЕ\4й курс\.NET\DotNet\Lb1\bin\Debug\net8.0\Lb1.dll
+F:\ХНУРЕ\4й курс\.NET\DotNet\Lb1\bin\Debug\net8.0\Lb1.pdb
+F:\ХНУРЕ\4й курс\.NET\DotNet\Lb1\obj\Debug\net8.0\Lb1.GeneratedMSBuildEditorConfig.editorconfig
+F:\ХНУРЕ\4й курс\.NET\DotNet\Lb1\obj\Debug\net8.0\Lb1.AssemblyInfoInputs.cache
+F:\ХНУРЕ\4й курс\.NET\DotNet\Lb1\obj\Debug\net8.0\Lb1.AssemblyInfo.cs
+F:\ХНУРЕ\4й курс\.NET\DotNet\Lb1\obj\Debug\net8.0\Lb1.csproj.CoreCompileInputs.cache
+F:\ХНУРЕ\4й курс\.NET\DotNet\Lb1\obj\Debug\net8.0\Lb1.dll
+F:\ХНУРЕ\4й курс\.NET\DotNet\Lb1\obj\Debug\net8.0\refint\Lb1.dll
+F:\ХНУРЕ\4й курс\.NET\DotNet\Lb1\obj\Debug\net8.0\Lb1.pdb
+F:\ХНУРЕ\4й курс\.NET\DotNet\Lb1\obj\Debug\net8.0\Lb1.genruntimeconfig.cache
+F:\ХНУРЕ\4й курс\.NET\DotNet\Lb1\obj\Debug\net8.0\ref\Lb1.dll
