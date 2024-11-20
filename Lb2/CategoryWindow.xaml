@@ -1,0 +1,65 @@
+﻿<Window x:Class="Lb2.CategoryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Manage Categories" Height="450" Width="600">
+    <Grid>
+        <!-- Верхня секція для додавання категорії -->
+        <StackPanel Orientation="Horizontal" Margin="10" VerticalAlignment="Top">
+            <Grid>
+                <TextBox x:Name="NewCategoryNameTextBox" Width="300" Margin="5" />
+                <TextBlock Text="Enter category name..."
+                           Foreground="Gray"
+                           VerticalAlignment="Center"
+                           Margin="8,0,0,0"
+                           IsHitTestVisible="False"
+                           Visibility="{Binding Text, ElementName=NewCategoryNameTextBox, Converter={StaticResource StringToVisibilityConverter}}" />
+            </Grid>
+            <Button Content="Add Category" Click="AddCategory_Click" Width="100" Margin="5" />
+        </StackPanel>
+
+
+        <!-- Таблиця категорій -->
+        <DataGrid x:Name="CategoriesDataGrid" AutoGenerateColumns="False" Margin="10,50,10,10"
+                  VerticalAlignment="Stretch">
+            <DataGrid.Columns>
+                <!-- Назва категорії -->
+                <DataGridTemplateColumn Header="Category Name">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding CategoryName}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding CategoryName}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- Кнопка Редагувати/Зберегти -->
+                <DataGridTemplateColumn Header="Edit">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Edit" Click="EditCategory_Click" Tag="{Binding}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <Button Content="Save" Click="SaveCategory_Click" Tag="{Binding}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- Кнопка Видалити -->
+                <DataGridTemplateColumn Header="Delete">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Delete" Click="DeleteCategory_Click" Tag="{Binding}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</Window>
