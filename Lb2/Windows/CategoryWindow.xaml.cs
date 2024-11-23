@@ -1,25 +1,9 @@
-﻿using System.Globalization;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
-using System.Windows.Data;
 using GameStore.Entities;
 
 namespace Lb2
 {
-    public class StringToVisibilityConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            var text = value as string;
-            return string.IsNullOrEmpty(text) ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-    
     public partial class CategoryWindow : Window
     {
         private readonly GameStoreContext _context;

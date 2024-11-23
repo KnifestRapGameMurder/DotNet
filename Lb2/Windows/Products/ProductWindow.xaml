@@ -1,0 +1,78 @@
+﻿<Window x:Class="Lb2.ProductsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Lb2"
+        Title="Manage Products" Height="600" Width="800">
+    <Grid>
+        <!-- Визначаємо дві рядки: для фільтрів і таблиці -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" /> <!-- Секція фільтрів і додавання -->
+            <RowDefinition Height="*" /> <!-- Таблиця продуктів -->
+        </Grid.RowDefinitions>
+
+        <!-- Секція для фільтрів і додавання продукту -->
+        <StackPanel Orientation="Vertical" Margin="10" Grid.Row="0">
+            <!-- Поля для додавання продукту -->
+            <ContentControl Grid.Row="0">
+                <local:AddProductControl x:Name="AddProductSection" />
+            </ContentControl>
+
+
+            <!-- Фільтри -->
+            <ContentControl x:Name="FilterContainer" Grid.Row="0" />
+        </StackPanel>
+
+        <!-- Таблиця продуктів -->
+        <DataGrid x:Name="ProductsDataGrid" AutoGenerateColumns="False" Margin="10" Grid.Row="1"
+                  CurrentCellChanged="ProductsDataGrid_CurrentCellChanged">
+            <DataGrid.Columns>
+                <!-- Назва продукту -->
+                <DataGridTextColumn Header="Product Name" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+
+                <!-- Ціна продукту -->
+                <DataGridTextColumn Header="Price" Binding="{Binding Price, UpdateSourceTrigger=PropertyChanged}" />
+
+                <!-- Категорія продукту -->
+                <DataGridTemplateColumn Header="Category">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Category.CategoryName}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <ComboBox ItemsSource="{Binding DataContext.Categories, RelativeSource={RelativeSource AncestorType=Window}}"
+                                      SelectedValue="{Binding CategoryId, UpdateSourceTrigger=PropertyChanged}"
+                                      SelectedValuePath="CategoryId" DisplayMemberPath="CategoryName" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- Валюта продукту -->
+                <DataGridTemplateColumn Header="Currency">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Currency.CurrencyName}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <ComboBox ItemsSource="{Binding DataContext.Currencies, RelativeSource={RelativeSource AncestorType=Window}}"
+                                      SelectedValue="{Binding CurrencyId, UpdateSourceTrigger=PropertyChanged}"
+                                      SelectedValuePath="CurrencyId" DisplayMemberPath="CurrencyName" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- Кнопка Видалити -->
+                <DataGridTemplateColumn Header="Delete">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Delete" Click="DeleteProduct_Click" Tag="{Binding}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

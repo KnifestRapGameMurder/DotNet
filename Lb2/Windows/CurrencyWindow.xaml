@@ -1,0 +1,130 @@
+﻿<Window x:Class="Lb2.CurrencyWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Manage Currencies" Height="450" Width="600">
+    <Grid>
+        <!-- Верхня секція для додавання нової валюти -->
+        <StackPanel Orientation="Horizontal" Margin="10" VerticalAlignment="Top">
+            <!-- Поле для назви валюти -->
+            <Grid>
+                <TextBox x:Name="NewCurrencyNameTextBox" Width="200" Margin="5" />
+                <TextBlock Text="Currency Name"
+                           Foreground="Gray"
+                           VerticalAlignment="Center"
+                           Margin="8,0,0,0"
+                           IsHitTestVisible="False"
+                           Visibility="{Binding Text, ElementName=NewCurrencyNameTextBox, Converter={StaticResource StringToVisibilityConverter}}" />
+            </Grid>
+    
+            <!-- Поле для символу валюти -->
+            <Grid>
+                <TextBox x:Name="NewCurrencySymbolTextBox" Width="100" Margin="5" />
+                <TextBlock Text="Symbol"
+                           Foreground="Gray"
+                           VerticalAlignment="Center"
+                           Margin="8,0,0,0"
+                           IsHitTestVisible="False"
+                           Visibility="{Binding Text, ElementName=NewCurrencySymbolTextBox, Converter={StaticResource StringToVisibilityConverter}}" />
+            </Grid>
+    
+            <Button Content="Add Currency" Click="AddCurrency_Click" Width="100" Margin="5"/>
+        </StackPanel>
+
+        <!-- Таблиця валют -->
+        <DataGrid x:Name="CurrenciesDataGrid" AutoGenerateColumns="False" Margin="10,50,10,10" VerticalAlignment="Stretch">
+            <DataGrid.Columns>
+                <!-- Назва валюти -->
+                <DataGridTemplateColumn Header="Currency Name">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding CurrencyName}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsEditing}" Value="True">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding CurrencyName}">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsEditing}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- Символ валюти -->
+                <DataGridTemplateColumn Header="Symbol">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Symbol}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsEditing}" Value="True">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding Symbol}">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsEditing}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- Кнопка Редагувати -->
+                <DataGridTemplateColumn Header="Edit">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="{Binding IsEditing, Converter={StaticResource BoolToEditSaveConverter}}"
+                                    Click="ToggleEditCurrency_Click"
+                                    Tag="{Binding}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- Кнопка Видалити -->
+                <DataGridTemplateColumn Header="Delete">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Delete" Click="DeleteCurrency_Click" Tag="{Binding}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

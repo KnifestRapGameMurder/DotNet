@@ -17,7 +17,6 @@
             <Button Content="Add Category" Click="AddCategory_Click" Width="100" Margin="5" />
         </StackPanel>
 
-
         <!-- Таблиця категорій -->
         <DataGrid x:Name="CategoriesDataGrid" AutoGenerateColumns="False" Margin="10,50,10,10"
                   VerticalAlignment="Stretch">
