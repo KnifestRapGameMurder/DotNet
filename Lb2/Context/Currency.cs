@@ -3,6 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GameStore.Entities;
 
+public interface ICurrency : INotifyPropertyChanged
+{
+    int CurrencyId { get; set; }
+    string CurrencyName { get; set; }
+    string Symbol { get; set; }
+    bool IsEditing { get; set; }
+}
+
 public class Currency : INotifyPropertyChanged
 {
     public int CurrencyId { get; set; }

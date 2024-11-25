@@ -1,91 +1,90 @@
-﻿using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using GameStore.Entities;
 
-namespace Lb2
+namespace Lb2;
+
+public interface ICurrencyWindow
 {
-    public partial class CurrencyWindow : Window
+    void LoadCurrencies();
+    void AddCurrency_Click(object sender, RoutedEventArgs e);
+    void ToggleEditCurrency_Click(object sender, RoutedEventArgs e);
+    void DeleteCurrency_Click(object sender, RoutedEventArgs e);
+}
+    
+public partial class CurrencyWindow : Window
+{
+    private readonly GameStoreContext _context;
+
+    public CurrencyWindow()
     {
-        private GameStoreContext _context;
+        InitializeComponent();
+        _context = new GameStoreContext();
+        LoadCurrencies();
+    }
 
-        public CurrencyWindow()
+    private void LoadCurrencies()
+    {
+        CurrenciesDataGrid.ItemsSource = _context.Currencies.ToList();
+    }
+
+    private void AddCurrency_Click(object sender, RoutedEventArgs e)
+    {
+        var name = NewCurrencyNameTextBox.Text.Trim();
+        var symbol = NewCurrencySymbolTextBox.Text.Trim();
+
+        if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(symbol))
         {
-            InitializeComponent();
-            _context = new GameStoreContext();
-            LoadCurrencies();
+            MessageBox.Show("Both name and symbol are required.");
+            return;
         }
 
-        // Завантаження списку валют
-        private void LoadCurrencies()
+        var currency = new Currency { CurrencyName = name, Symbol = symbol };
+        _context.Currencies.Add(currency);
+        _context.SaveChanges();
+        LoadCurrencies();
+
+        NewCurrencyNameTextBox.Clear();
+        NewCurrencySymbolTextBox.Clear();
+        MessageBox.Show("Currency added.");
+    }
+
+    private void ToggleEditCurrency_Click(object sender, RoutedEventArgs e)
+    {
+        var button = sender as FrameworkElement;
+        if (button?.Tag is not Currency currency) return;
+
+        if (currency.IsEditing)
         {
-            var currencies = _context.Currencies.ToList();
-            CurrenciesDataGrid.ItemsSource = currencies;
-        }
-
-        // Додавання нової валюти
-        private void AddCurrency_Click(object sender, RoutedEventArgs e)
-        {
-            var newCurrencyName = NewCurrencyNameTextBox.Text.Trim();
-            var newCurrencySymbol = NewCurrencySymbolTextBox.Text.Trim();
-
-            if (string.IsNullOrEmpty(newCurrencyName) || string.IsNullOrEmpty(newCurrencySymbol))
-            {
-                MessageBox.Show("Both Currency Name and Symbol are required.");
-                return;
-            }
-
-            var newCurrency = new Currency
-            {
-                CurrencyName = newCurrencyName,
-                Symbol = newCurrencySymbol
-            };
-
-            _context.Currencies.Add(newCurrency);
+            // Зберігаємо зміни
+            _context.Currencies.Update(currency);
             _context.SaveChanges();
+            currency.IsEditing = false;
             LoadCurrencies();
-
-            NewCurrencyNameTextBox.Clear();
-            NewCurrencySymbolTextBox.Clear();
-            MessageBox.Show("Currency added.");
+            MessageBox.Show("Currency updated.");
         }
-
-        // Редагування валюти
-        private void ToggleEditCurrency_Click(object sender, RoutedEventArgs e)
+        else
         {
-            var button = sender as FrameworkElement;
-            var currency = button?.Tag as Currency;
-
-            if (currency == null)
-                return;
-
-            if (currency.IsEditing)
-            {
-                // Зберігаємо зміни
-                _context.SaveChanges();
-                currency.IsEditing = false;
-                LoadCurrencies();
-                MessageBox.Show("Currency updated.");
-            }
-            else
-            {
-                // Увімкнути режим редагування
-                currency.IsEditing = true;
-            }
+            // Активуємо режим редагування
+            currency.IsEditing = true;
         }
+    }
 
-        // Видалення валюти
-        private void DeleteCurrency_Click(object sender, RoutedEventArgs e)
+    private void DeleteCurrency_Click(object sender, RoutedEventArgs e)
+    {
+        var button = sender as FrameworkElement;
+        if (button?.Tag is not Currency currency) return;
+
+        var confirm = MessageBox.Show(
+            $"Are you sure you want to delete the currency '{currency.CurrencyName}'? All associated products will also be deleted.",
+            "Confirm Delete",
+            MessageBoxButton.YesNo);
+
+        if (confirm == MessageBoxResult.Yes)
         {
-            var button = sender as FrameworkElement;
-            var currency = button?.Tag as Currency;
-
-            if (currency == null)
-                return;
-
             _context.Currencies.Remove(currency);
             _context.SaveChanges();
             LoadCurrencies();
-            MessageBox.Show("Currency deleted.");
+            MessageBox.Show("Currency and associated products deleted.");
         }
     }
 }

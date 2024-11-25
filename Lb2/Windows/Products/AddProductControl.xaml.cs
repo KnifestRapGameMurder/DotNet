@@ -6,6 +6,16 @@ using GameStore.Entities;
 
 namespace Lb2;
 
+public interface IAddProductControl
+{
+    event Action<Product> ProductAdded;
+
+    ObservableCollection<Category> Categories { get; set; }
+    ObservableCollection<Currency> Currencies { get; set; }
+
+    void AddProduct_Click(object sender, EventArgs e);
+}
+
 public partial class AddProductControl : UserControl
 {
     public event Action<Product> ProductAdded;

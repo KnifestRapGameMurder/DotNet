@@ -3,6 +3,17 @@ using System.Runtime.CompilerServices;
 
 namespace GameStore.Entities;
 
+public interface IProduct : INotifyPropertyChanged
+{
+    int ProductId { get; set; }
+    string Name { get; set; }
+    decimal Price { get; set; }
+    int CategoryId { get; set; }
+    int CurrencyId { get; set; }
+    Category Category { get; set; }
+    Currency Currency { get; set; }
+}
+
 public class Product : INotifyPropertyChanged
 {
     private int _productId;

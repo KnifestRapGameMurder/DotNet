@@ -2,7 +2,13 @@
 
 namespace GameStore.Entities;
 
-public class Category
+public interface ICategory
+{
+    int CategoryId { get; set; }
+    string CategoryName { get; set; }
+}
+
+public class Category 
 {
     [Key]
     public int CategoryId { get; set; }

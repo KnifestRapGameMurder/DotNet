@@ -1,85 +1,87 @@
-﻿using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using GameStore.Entities;
 
-namespace Lb2
+namespace Lb2;
+
+public interface ICategoryWindow
 {
-    public partial class CategoryWindow : Window
+    void LoadCategories();
+    void AddCategory_Click(object sender, RoutedEventArgs e);
+    void EditCategory_Click(object sender, RoutedEventArgs e);
+    void SaveCategory_Click(object sender, RoutedEventArgs e);
+    void DeleteCategory_Click(object sender, RoutedEventArgs e);
+}
+    
+public partial class CategoryWindow : Window
+{
+    private readonly GameStoreContext _context;
+
+    public CategoryWindow()
     {
-        private readonly GameStoreContext _context;
+        InitializeComponent();
+        _context = new GameStoreContext();
+        LoadCategories();
+    }
 
-        public CategoryWindow()
+    private void LoadCategories()
+    {
+        CategoriesDataGrid.ItemsSource = _context.Categories.ToList();
+    }
+
+    private void AddCategory_Click(object sender, RoutedEventArgs e)
+    {
+        var newCategoryName = NewCategoryNameTextBox.Text.Trim();
+
+        if (string.IsNullOrEmpty(newCategoryName))
         {
-            InitializeComponent();
-            _context = new GameStoreContext();
-            LoadCategories();
+            MessageBox.Show("Category name cannot be empty.");
+            return;
         }
 
-        private void LoadCategories()
+        var newCategory = new Category { CategoryName = newCategoryName };
+        _context.Categories.Add(newCategory);
+        _context.SaveChanges();
+        LoadCategories();
+
+        NewCategoryNameTextBox.Clear();
+        MessageBox.Show("Category added.");
+    }
+
+    private void EditCategory_Click(object sender, RoutedEventArgs e)
+    {
+        var button = sender as FrameworkElement;
+        if (button?.Tag is not Category category) return;
+
+        CategoriesDataGrid.BeginEdit(); // Активує режим редагування
+    }
+
+    private void SaveCategory_Click(object sender, RoutedEventArgs e)
+    {
+        var button = sender as FrameworkElement;
+        if (button?.Tag is not Category category) return;
+
+        _context.Categories.Update(category);
+        _context.SaveChanges();
+        LoadCategories();
+        MessageBox.Show("Category updated.");
+    }
+
+    private void DeleteCategory_Click(object sender, RoutedEventArgs e)
+    {
+        var button = sender as FrameworkElement;
+        if (button?.Tag is not Category category) return;
+
+        var confirm = MessageBox.Show(
+            $"Are you sure you want to delete the category '{category.CategoryName}'? All associated products will also be deleted.",
+            "Confirm Delete",
+            MessageBoxButton.YesNo);
+
+        if (confirm == MessageBoxResult.Yes)
         {
-            var categories = _context.Categories.ToList();
-            CategoriesDataGrid.ItemsSource = categories;
-        }
-        private void AddCategory_Click(object sender, RoutedEventArgs e)
-        {
-            var newCategoryName = NewCategoryNameTextBox.Text.Trim();
-
-            if (string.IsNullOrEmpty(newCategoryName))
-            {
-                MessageBox.Show("Category name cannot be empty.");
-                return;
-            }
-
-            var newCategory = new Category
-            {
-                CategoryName = newCategoryName
-            };
-
-            _context.Categories.Add(newCategory);
-            _context.SaveChanges();
-            LoadCategories();
-
-            NewCategoryNameTextBox.Clear();
-            MessageBox.Show("Category added.");
-        }
-
-        private void EditCategory_Click(object sender, RoutedEventArgs e)
-        {
-            var button = sender as FrameworkElement;
-            var category = button?.Tag as Category;
-
-            if (category == null)
-                return;
-
-            CategoriesDataGrid.BeginEdit(); // Вмикає режим редагування
-        }
-
-        private void SaveCategory_Click(object sender, RoutedEventArgs e)
-        {
-            var button = sender as FrameworkElement;
-            var category = button?.Tag as Category;
-
-            if (category == null)
-                return;
-
-            _context.SaveChanges(); // Зберігає зміни в базі даних
-            CategoriesDataGrid.CommitEdit(); // Завершує редагування
-            LoadCategories();
-            MessageBox.Show("Category updated.");
-        }
-
-        private void DeleteCategory_Click(object sender, RoutedEventArgs e)
-        {
-            var button = sender as FrameworkElement;
-            var category = button?.Tag as Category;
-
-            if (category == null)
-                return;
-
             _context.Categories.Remove(category);
             _context.SaveChanges();
             LoadCategories();
-            MessageBox.Show("Category deleted.");
+            MessageBox.Show("Category and associated products deleted.");
         }
     }
 }
