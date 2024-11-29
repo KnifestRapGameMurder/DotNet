@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Car Evaluation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h1>Car Evaluation</h1>
+<p>Оцініть автомобіль за критеріями ціна/якість за допомогою нашого інструменту.</p>
+
+@if (ViewBag.IsModelAvailable)
+{
+    <a asp-controller="Car" asp-action="Create" class="btn btn-primary">Оцінити авто</a>
+}
+else
+{
+    <a asp-controller="Car" asp-action="TrainModel" class="btn btn-success">Натренувати модель</a>
+    <p class="text-danger">Модель не натренована. Спочатку натренуйте модель.</p>
+}

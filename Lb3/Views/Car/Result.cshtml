@@ -1,0 +1,63 @@
+﻿@model Lb3.Models.CarEvaluationModel
+@using Lb3.Helpers
+
+<h2>Результат оцінки автомобіля</h2>
+
+<table class="table table-bordered">
+    <tr>
+        <th>Параметр</th>
+        <th>Значення</th>
+    </tr>
+    <tr>
+        <td>Ціна покупки</td>
+        <td style="color: @ValueMapper.BuyingColors[Model.Buying];">
+            @ValueMapper.BuyingDescriptions[Model.Buying]
+        </td>
+    </tr>
+    <tr>
+        <td>Вартість обслуговування</td>
+        <td style="color: @ValueMapper.MaintColors[Model.Maint];">
+            @ValueMapper.MaintDescriptions[Model.Maint]
+        </td>
+    </tr>
+    <tr>
+        <td>Кількість дверей</td>
+        <td>
+            @ValueMapper.DoorsDescriptions[Model.Doors]
+        </td>
+    </tr>
+    <tr>
+        <td>Кількість місць</td>
+        <td style="color: @ValueMapper.PersonsColors[Model.Persons];">
+            @ValueMapper.PersonsDescriptions[Model.Persons]
+        </td>
+    </tr>
+    <tr>
+        <td>Об’єм багажника</td>
+        <td style="color: @ValueMapper.LugBootColors[Model.LugBoot];">
+            @ValueMapper.LugBootDescriptions[Model.LugBoot]
+        </td>
+    </tr>
+    <tr>
+        <td>Рівень безпеки</td>
+        <td style="color: @ValueMapper.SafetyColors[Model.Safety];">
+            @ValueMapper.SafetyDescriptions[Model.Safety]
+        </td>
+    </tr>
+</table>
+
+<div class="mt-4 p-4" style="border: 2px solid @ValueMapper.EvaluationColors[Model.PredictedEvaluation]; background-color: @ValueMapper.EvaluationColors[Model.PredictedEvaluation]; color: white; text-align: center;">
+    <h3>Оцінка автомобіля: @ValueMapper.EvaluationDescriptions[Model.PredictedEvaluation]</h3>
+    <p style="font-size: 18px;">
+        @if (Model.PredictedEvaluation == "vgood" || Model.PredictedEvaluation == "good")
+        {
+            <strong>Рекомендується!</strong>
+        }
+        else
+        {
+            <strong>Не рекомендується.</strong>
+        }
+    </p>
+</div>
+
+<a asp-controller="Car" asp-action="Create" class="btn btn-primary mt-4">Оцінити інший автомобіль</a>

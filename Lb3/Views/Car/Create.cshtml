@@ -1,0 +1,64 @@
+﻿@model Lb3.Models.CarEvaluationModel
+
+@{
+    ViewData["Title"] = "Оцінити автомобіль";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h1>Оцінити автомобіль</h1>
+
+<form asp-controller="Car" asp-action="Create" method="post">
+    <div class="form-group">
+        <label for="Buying">Ціна покупки</label>
+        <select id="Buying" name="Buying" class="form-control">
+            <option value="low">Низька</option>
+            <option value="med">Середня</option>
+            <option value="high">Висока</option>
+            <option value="vhigh">Дуже висока</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="Maint">Ціна обслуговування</label>
+        <select id="Maint" name="Maint" class="form-control">
+            <option value="low">Низька</option>
+            <option value="med">Середня</option>
+            <option value="high">Висока</option>
+            <option value="vhigh">Дуже висока</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="Doors">Кількість дверей</label>
+        <select id="Doors" name="Doors" class="form-control">
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5more">5+</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="Persons">Кількість пасажирів</label>
+        <select id="Persons" name="Persons" class="form-control">
+            <option value="2">2</option>
+            <option value="4">4</option>
+            <option value="more">Більше</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="LugBoot">Обсяг багажника</label>
+        <select id="LugBoot" name="LugBoot" class="form-control">
+            <option value="small">Малий</option>
+            <option value="med">Середній</option>
+            <option value="big">Великий</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="Safety">Рівень безпеки</label>
+        <select id="Safety" name="Safety" class="form-control">
+            <option value="low">Низький</option>
+            <option value="med">Середній</option>
+            <option value="high">Високий</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Оцінити</button>
+</form>
